@@ -35,7 +35,13 @@ public class swerveModules {
         angleMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
         driveMotor = new CANSparkFlex(moduleConstants.driveMotorID, MotorType.kBrushless);
         cancoder = new CANcoder(moduleConstants.cancoderID);
-        
+        angleOffset = moduleConstants.angleOffset;
+
+        drivePID = driveMotor.getPIDController();
+        anglePID = angleMotor.getPIDController();
+
+        driveEncoder = driveMotor.getEncoder();
+        angleRelativeEncoder = angleMotor.getEncoder();
     }
 
 }
