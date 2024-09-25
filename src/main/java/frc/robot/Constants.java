@@ -14,6 +14,17 @@ package frc.robot;
  */
 public final class Constants {
   public static class swerveDriveConstants {
-      
+      public static final double kS = 0.0;
+      public static final double kV = 0.0;
+      public static final double kA = 0.0;
+
+      public static final double drivekP = 0.0;
+      public static final double drivekI = 0.0;
+      public static final double drivekD = 0.0;
+
+      public static final double anglekP = 0.0;
+      public static final double anglekI = 0.0;
+      public static final double anglekD = 0.0;
+
   }
 }

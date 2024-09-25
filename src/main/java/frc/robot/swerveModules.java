@@ -30,11 +30,11 @@ public class swerveModules {
     
     
 
-    public swerveModules(int moduleNumber, swerveModuleConstants swerveModuleConstants ){
+    public swerveModules(int moduleNumber, swerveModuleConstants moduleConstants ){
         this.moduleNumber = moduleNumber;
-        angleMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
-        driveMotor = new CANSparkFlex(driveMotorID, MotorType.kBrushless);
-        cancoder = new CANcoder(cancoderID);
+        angleMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
+        driveMotor = new CANSparkFlex(moduleConstants.driveMotorID, MotorType.kBrushless);
+        cancoder = new CANcoder(moduleConstants.cancoderID);
         
     }
 
