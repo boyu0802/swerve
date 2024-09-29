@@ -97,7 +97,7 @@ public class swerveModules {
     }
 
     public void setDesiredState(SwerveModuleState state){
-        if (Math.abs(state.speedMetersPerSecond) < swerveDriveConstants.translationDeadband) {
+        if (Math.abs(state.speedMetersPerSecond) < swerveDriveConstants.driveDeadband) {
             stop();
             return;
           }
