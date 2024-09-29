@@ -1,27 +1,27 @@
 package frc.robot;
 
+import javax.lang.model.element.ModuleElement;
+
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.CANcoderConfigurator;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.swerveDriveConstants;
 import frc.robot.lib.*;
 
 
-public class swerveModules {
+public class swerveModules extends SubsystemBase {
     private int moduleNumber;
 
     private CANSparkMax angleMotor;
@@ -123,6 +123,12 @@ public class swerveModules {
         return angleMotor.getOutputCurrent();
     }
 
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Swerve/Angle/Measured/Module_" + moduleNumber, getAnglePosition());
+        SmartDashboard.putNumber("Swerve/Speed/Measured/Module_" + moduleNumber, getDriveVelocity());
+        SmartDashboard.putNumber("Swerve/Distance/Module_" + moduleNumber, getDrivePosition());
+    }
     
 
     
