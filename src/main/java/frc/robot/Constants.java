@@ -10,20 +10,20 @@ import frc.robot.lib.swerveModuleConstants;
 public final class Constants {
   public static class swerveDriveConstants {
     // TODO: get real values
-    public static final double chassisLength = 0.563;
-    public static final double chassisWidth = 0.563;
+    public static final double chassisLength = 0.75;
+    public static final double chassisWidth = 0.75;
    
-    public static final double driveKp = 0.1;
+    public static final double driveKp = 0.0009;
     public static final double driveKi = 0.0;
     public static final double driveKd = 0.0;
 
-    public static final double angleKp = 0.5;
+    public static final double angleKp = 0.005;
     public static final double angleKi = 0.0;
     public static final double anglekd = 0.0;
 
-    public static final double driveEncoderPositionToMeters = (1.0 / 6.75) * Units.inchesToMeters(4.0 * Math.PI);
+    public static final double driveEncoderPositionToMeters = (1.0/6.0) * Units.inchesToMeters(4.0 * Math.PI);
     public static final double driveEncoderVelocityToMetersPerSecond = driveEncoderPositionToMeters / 60.0;
-    public static final double cancoderPositionToRadians = 2.0 * Math.PI;
+    public static final double cancoderPositionToDegrees = (1.0/20.0) * 360;
 
     public static final IdleMode driveIdleMode = IdleMode.kBrake;
     public static final IdleMode angleIdleMode = IdleMode.kBrake;
@@ -32,12 +32,12 @@ public final class Constants {
     public static final boolean angleMotorInverted = false;
 
     public static final double maxSpeedMetersPerSecond = Units.feetToMeters(15.1);
-    public static final double maxRadiansPerSecond = 1.5 * Math.PI;
+    public static final double maxDegreePerSecond = 270;
 
-    public static final double frontLeftAngleOffset = 0.0;
-    public static final double frontRightAngleOffset = 0.0;
-    public static final double backLeftAngleOffset = 0.0;
-    public static final double backRightAngleOffset = 0.0;
+    public static final double frontLeftAngleOffset = 0.007 * cancoderPositionToDegrees;
+    public static final double frontRightAngleOffset = 0.63 * cancoderPositionToDegrees;
+    public static final double backLeftAngleOffset = 0.258 * cancoderPositionToDegrees;
+    public static final double backRightAngleOffset = 0.998 * cancoderPositionToDegrees;
 
     public static final int frontLeftSwerveID = 1;
     public static final int frontRightSwerveID = 2;
@@ -56,8 +56,8 @@ public final class Constants {
     
     public static final double driveXMaxAccel = 2.5;
     public static final double driveYMaxAccel = 2.5;
-    public static final double driveRotMaxAccel = 3;
+    public static final double driveRotMaxAccel = 135;
 
-    public static final double driveDeadband = 0.0001;
+    public static final double driveDeadband = 0.05;
   }
 }

@@ -40,7 +40,7 @@ public class swerveDrive extends Command {
 
         xSpeed = xLimiter.calculate(xSpeed) * swerveDriveConstants.maxSpeedMetersPerSecond;
         ySpeed = yLimiter.calculate(ySpeed) * swerveDriveConstants.maxSpeedMetersPerSecond;
-        rot = rotLimiter.calculate(rot) * swerveDriveConstants.maxRadiansPerSecond;
+        rot = rotLimiter.calculate(rot) * swerveDriveConstants.maxDegreePerSecond;
 
 
         swerve.setModuleStates(xSpeed, ySpeed, rot, fieldRelative);

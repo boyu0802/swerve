@@ -1,6 +1,5 @@
 package frc.robot;
 
-import javax.lang.model.element.ModuleElement;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -39,16 +38,18 @@ public class swerveModules extends SubsystemBase {
 
     public swerveModules(int moduleNumber, swerveModuleConstants moduleConstants ){
         this.moduleNumber = moduleNumber;
-        angleMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
+        angleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
         driveMotor = new CANSparkFlex(moduleConstants.driveMotorID, MotorType.kBrushless);
         cancoder = new CANcoder(moduleConstants.cancoderID);
         angleOffset = moduleConstants.angleOffset;
         cancoderConfig();
         
+        driveMotor.restoreFactoryDefaults();
+        angleMotor.restoreFactoryDefaults();
 
         drivePID = new PIDController(swerveDriveConstants.driveKp, swerveDriveConstants.driveKi, swerveDriveConstants.driveKd);
         anglePID = new PIDController(swerveDriveConstants.angleKp, swerveDriveConstants.angleKi, swerveDriveConstants.anglekd);
-        anglePID.enableContinuousInput(-Math.PI, Math.PI);
+        anglePID.enableContinuousInput(-180, 180);
 
         driveEncoder = driveMotor.getEncoder();
 
@@ -62,7 +63,8 @@ public class swerveModules extends SubsystemBase {
         driveMotor.setInverted(swerveDriveConstants.driveMotorInverted);
         angleMotor.setInverted(swerveDriveConstants.angleMotorInverted);
 
-        
+        driveMotor.burnFlash();
+        angleMotor.burnFlash();
     }
 
     public double getDrivePosition(){
@@ -70,7 +72,7 @@ public class swerveModules extends SubsystemBase {
     }
 
     public double getAnglePosition(){
-        return (cancoder.getAbsolutePosition().getValueAsDouble()* swerveDriveConstants.cancoderPositionToRadians) - angleOffset;
+        return (cancoder.getAbsolutePosition().getValueAsDouble()* swerveDriveConstants.cancoderPositionToDegrees) - angleOffset;
     }
 
     public Rotation2d getRotation(){
@@ -105,7 +107,7 @@ public class swerveModules extends SubsystemBase {
 
         double ff = state.speedMetersPerSecond / swerveDriveConstants.maxSpeedMetersPerSecond;
         double driveOutput = drivePID.calculate(getDriveVelocity(), state.speedMetersPerSecond);
-        double angleOutput = anglePID.calculate(getAnglePosition(), state.angle.getRadians());
+        double angleOutput = anglePID.calculate(getAnglePosition(), state.angle.getDegrees());
         driveMotor.set(ff + driveOutput);
         angleMotor.set(angleOutput);
     }
