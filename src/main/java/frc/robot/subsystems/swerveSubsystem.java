@@ -9,21 +9,45 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.swerveDriveConstants;
 import frc.robot.swerveModules;
 
 public class swerveSubsystem extends SubsystemBase {
-    private final swerveModules frontLeftModule = new swerveModules(swerveDriveConstants.frontLeftSwerveID, swerveDriveConstants.frontLeftModule);
-    private final swerveModules frontRightModule = new swerveModules(swerveDriveConstants.frontRightSwerveID, swerveDriveConstants.frontRightModule);
-    private final swerveModules backLeftModule = new swerveModules(swerveDriveConstants.backLeftSwerveID, swerveDriveConstants.backLeftModule);
-    private final swerveModules backRightModule = new swerveModules(swerveDriveConstants.backRightSwerveID, swerveDriveConstants.backRightModule);
+    private final swerveModules frontLeftModule;
+    private final swerveModules frontRightModule;
+    private final swerveModules backLeftModule;
+    private final swerveModules backRightModule;
+    private final SwerveDriveOdometry odometry;
+    private final SwerveDriveKinematics kinematics;
+    private final AHRS navx;
 
-    private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(swerveDriveConstants.frontLeftPosition, swerveDriveConstants.frontRightPosition, swerveDriveConstants.backLeftPosition, swerveDriveConstants.backRightPosition);
+
+    public swerveSubsystem(){
+        navx = new AHRS();
+        resetNavx();
+
+        frontLeftModule = new swerveModules(swerveDriveConstants.frontLeftSwerveID, swerveDriveConstants.frontLeftModule);
+        frontRightModule = new swerveModules(swerveDriveConstants.frontRightSwerveID, swerveDriveConstants.frontRightModule);
+        backLeftModule = new swerveModules(swerveDriveConstants.backLeftSwerveID, swerveDriveConstants.backLeftModule);
+        backRightModule = new swerveModules(swerveDriveConstants.backRightSwerveID, swerveDriveConstants.backRightModule);
+
+        kinematics = new SwerveDriveKinematics(swerveDriveConstants.frontLeftPosition, swerveDriveConstants.frontRightPosition, swerveDriveConstants.backLeftPosition, swerveDriveConstants.backRightPosition);
+
+
+        odometry = new SwerveDriveOdometry(kinematics, getAngle(), getModulePositions());
+
+        Timer.delay(0.69);
+        resetModulesToStarting();
+
+    }
     
-    private final AHRS navx = new AHRS();
 
-    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, getAngle(), getModulePositions());
+    
+    
+    
+
     
     public Rotation2d getAngle(){
         return Rotation2d.fromDegrees(Math.IEEEremainder(-navx.getAngle(), 360));
@@ -32,6 +56,7 @@ public class swerveSubsystem extends SubsystemBase {
     public void resetNavx(){
         navx.reset();
     }
+
 
     public void resetOdometry(Pose2d pose){
         odometry.resetPosition(getAngle(),getModulePositions(), pose);
@@ -67,7 +92,11 @@ public class swerveSubsystem extends SubsystemBase {
         };
     }
 
-
-
+    public void resetModulesToStarting(){
+        frontLeftModule.resetToStarting();
+        frontRightModule.resetToStarting();
+        backLeftModule.resetToStarting();
+        backRightModule.resetToStarting();       
+    }
 
 }
