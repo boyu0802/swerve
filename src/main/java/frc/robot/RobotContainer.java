@@ -26,7 +26,7 @@ public class RobotContainer {
     swerve.setDefaultCommand(new swerveDrive(swerve,
         () ->controller.getRawAxis(XboxController.Axis.kLeftY.value),
         () -> -controller.getRawAxis(XboxController.Axis.kLeftX.value),
-        () -> -controller.getRawAxis(XboxController.Axis.kRightX.value),
+        () -> controller.getRawAxis(XboxController.Axis.kRightX.value),
         () ->controller.getRightBumper()
     ));
     configureBindings();
